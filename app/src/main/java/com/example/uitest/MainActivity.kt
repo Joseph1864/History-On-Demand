@@ -13,9 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.uitest.ui.theme.UiTestTheme
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,12 +21,23 @@ class MainActivity : ComponentActivity() {
         setContent {
             UiTestTheme {
                 val apiKey = "eaui/ZHQXSINNhzEtXfoAQ==Q55LXXAaO8fotgky"
+                var uiState by remember { mutableStateOf<List<String>>(emptyList())}
 
-                CoroutineScope(Dispatchers.IO).launch {
-                    val response = HistoricalEventApi().getHistoricalEvents()
+                LaunchedEffect(Dispatchers.IO){
+                    val response = RetrofitInstance.api.getHistoricalEvents(apiKey)
+                    try {
+                        uiState = response.map {it.event}
+                    } catch (e: Exception){
+                        println("Error: ")
+                    }
 
-                    println(response)
-
+                }
+                LazyColumn {
+                    items(uiState.size) {
+                        Text(
+                            text = uiState[it]
+                        )
+                    }
                 }
 
             }
