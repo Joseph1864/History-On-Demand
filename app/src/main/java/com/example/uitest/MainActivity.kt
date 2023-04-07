@@ -30,13 +30,10 @@ class MainActivity : ComponentActivity() {
                     } catch (e: Exception){
                         println("Error: ")
                     }
-
                 }
                 LazyColumn {
                     items(uiState.size) {
-                        Text(
-                            text = uiState[it]
-                        )
+                        HistoricalEventCard(uiState[it])
                     }
                 }
 
@@ -92,13 +89,16 @@ fun HomeScreen() {
 @Composable
 fun HistoricalEventCard(historicalEvent: String) {
     Card(modifier = Modifier
-        .padding(8.dp, 8.dp)
+        .padding(32.dp, 16.dp)
         .fillMaxWidth()
-        .height(1000.dp),
-        shape = RoundedCornerShape(4.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        .wrapContentHeight(),
+        shape = RoundedCornerShape(16.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
-        Text(text = historicalEvent)
+        Text(
+            modifier = Modifier.padding(8.dp),
+            text = historicalEvent
+        )
     }
 
 }
