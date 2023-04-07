@@ -3,6 +3,7 @@ package com.example.uitest
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -12,24 +13,21 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.uitest.screens.home.HomeViewModel
 import com.example.uitest.ui.theme.UiTestTheme
 import kotlinx.coroutines.Dispatchers
 
 class MainActivity : ComponentActivity() {
+
+    private val homeViewModel by viewModels<HomeViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             UiTestTheme {
-                val apiKey = "eaui/ZHQXSINNhzEtXfoAQ==Q55LXXAaO8fotgky"
-                var uiState by remember { mutableStateOf<List<String>>(emptyList())}
+                val uiState by homeViewModel.uiState.collectAsState()
 
-                LaunchedEffect(Dispatchers.IO){
-                    val response = RetrofitInstance.api.getHistoricalEvents(apiKey)
-                    try {
-                        uiState = response.map {it.event}
-                    } catch (e: Exception){
-                        println("Error: ")
-                    }
+                LaunchedEffect(key1 = true){
+                    homeViewModel.getHistoricalEvents()
                 }
                 LazyColumn {
                     items(uiState.size) {
@@ -43,7 +41,7 @@ class MainActivity : ComponentActivity() {
 }
 
 //Just ignore all this, it was just a quick little test to have a text bar the disappears when
-//you input text and hit a button, but now that you're looking here, should I have it dissapear when
+//you input text and hit a button, but now that you're looking here, should I have it disappear when
 //you hit the button or would it be easier to navigate to a new screen?
 @Composable
 fun HomeScreen() {
