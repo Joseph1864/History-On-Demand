@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.uitest.screens.home.HomeViewModel
 import com.example.uitest.ui.theme.UiTestTheme
-import kotlinx.coroutines.Dispatchers
 
 class MainActivity : ComponentActivity() {
 
@@ -26,12 +25,9 @@ class MainActivity : ComponentActivity() {
             UiTestTheme {
                 val uiState by homeViewModel.uiState.collectAsState()
 
-                LaunchedEffect(key1 = true){
-                    homeViewModel.getHistoricalEvents()
-                }
                 LazyColumn {
-                    items(uiState.size) {
-                        HistoricalEventCard(uiState[it])
+                    items(uiState.events.size) {
+                        HistoricalEventCard(uiState.events[it])
                     }
                 }
 
@@ -43,49 +39,49 @@ class MainActivity : ComponentActivity() {
 //Just ignore all this, it was just a quick little test to have a text bar the disappears when
 //you input text and hit a button, but now that you're looking here, should I have it disappear when
 //you hit the button or would it be easier to navigate to a new screen?
-@Composable
-fun HomeScreen() {
-    var showInput by remember { mutableStateOf(true) }
-    var keyword by remember { mutableStateOf("") }
-    var itemList by remember { mutableStateOf(listOf<String>()) }
-
-    //itemList = listOf("one", "two", "three", "four", "five", "six")
-    if (showInput) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-        ) {
-            TextField(
-                value = keyword,
-                singleLine = true,
-                onValueChange = { keyword = it },
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Button(
-                onClick = {
-                    showInput = false
-                },
-                modifier = Modifier.align(Alignment.End)
-            ) {
-                Text("History Time!")
-            }
-        }
-    } else {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            itemsIndexed(itemList) { index, item ->
-                HistoricalEventCard(historicalEvent = item)
-            }
-        }
-    }
-}
+//@Composable
+//fun HomeScreen() {
+//    var showInput by remember { mutableStateOf(true) }
+//    var keyword by remember { mutableStateOf("") }
+//    var itemList by remember { mutableStateOf(listOf<String>()) }
+//
+//    //itemList = listOf("one", "two", "three", "four", "five", "six")
+//    if (showInput) {
+//        Column(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .padding(16.dp)
+//        ) {
+//            TextField(
+//                value = keyword,
+//                singleLine = true,
+//                onValueChange = { keyword = it },
+//                modifier = Modifier.fillMaxWidth()
+//            )
+//            Spacer(modifier = Modifier.height(16.dp))
+//            Button(
+//                onClick = {
+//                    showInput = false
+//                },
+//                modifier = Modifier.align(Alignment.End)
+//            ) {
+//                Text("History Time!")
+//            }
+//        }
+//    } else {
+//        LazyColumn(
+//            modifier = Modifier.fillMaxSize()
+//        ) {
+//            itemsIndexed(itemList) { index, item ->
+//                HistoricalEventCard(event = item)
+//            }
+//        }
+//    }
+//}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HistoricalEventCard(historicalEvent: String) {
+fun HistoricalEventCard(event: HistoricalEvent) {
     Card(modifier = Modifier
         .padding(32.dp, 16.dp)
         .fillMaxWidth()
@@ -94,8 +90,12 @@ fun HistoricalEventCard(historicalEvent: String) {
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
         Text(
-            modifier = Modifier.padding(8.dp),
-            text = historicalEvent
+            modifier = Modifier.padding(bottom = 8.dp),
+            text = "${event.day} ${event.month} ${event.year}"
+        )
+        Text(
+            modifier = Modifier.padding(bottom = 8.dp),
+            text = event.event
         )
     }
 
