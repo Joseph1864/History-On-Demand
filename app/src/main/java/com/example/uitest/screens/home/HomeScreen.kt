@@ -11,14 +11,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-
-
-
+import com.example.uitest.HistoricalEvent
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HistoricalEventCard(historicalEvent: String) {
+fun HistoricalEventCard(event: HistoricalEvent) {
     Card(modifier = Modifier
         .padding(32.dp, 16.dp)
         .fillMaxWidth()
@@ -27,8 +25,12 @@ fun HistoricalEventCard(historicalEvent: String) {
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
         Text(
-            modifier = Modifier.padding(8.dp),
-            text = historicalEvent
+            modifier = Modifier.padding(bottom = 8.dp),
+            text = "${event.day} ${event.month} ${event.year}"
+        )
+        Text(
+            modifier = Modifier.padding(bottom = 8.dp),
+            text = event.event
         )
     }
 
