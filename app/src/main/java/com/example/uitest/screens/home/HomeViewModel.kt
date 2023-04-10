@@ -16,7 +16,7 @@ class HomeViewModel : ViewModel() {
     val uiState: StateFlow<ViewState> = _uiState.asStateFlow()
 
     private val apiKey = "eaui/ZHQXSINNhzEtXfoAQ==Q55LXXAaO8fotgky"
-    private val keyword = "Christianity"
+    private val keyword = "Rome"
     private val paginator = Paginator(apiKey, keyword)
 
     init {

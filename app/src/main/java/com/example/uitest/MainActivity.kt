@@ -22,8 +22,20 @@ class MainActivity : ComponentActivity() {
         setContent {
             UiTestTheme {
                 val uiState by homeViewModel.uiState.collectAsState()
+                var keywordInput by remember { mutableStateOf("") }
 
                 LazyColumn {
+                    item {
+                        TextField(
+                            value = keywordInput,
+                            onValueChange = { keywordInput = it },
+                            label = { Text("Enter a Keyword") },
+                            modifier = Modifier.padding(16.dp)
+                        )
+                        Button(
+                            onClick = {}
+                        )
+                    }
                     items(uiState.events.size) {
                         HistoricalEventCard(uiState.events[it])
                     }
@@ -88,11 +100,11 @@ fun HistoricalEventCard(event: HistoricalEvent) {
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
         Text(
-            modifier = Modifier.padding(bottom = 8.dp),
+            modifier = Modifier.padding(8.dp),
             text = "${event.day} ${event.month} ${event.year}"
         )
         Text(
-            modifier = Modifier.padding(bottom = 8.dp),
+            modifier = Modifier.padding(8.dp),
             text = event.event
         )
     }
