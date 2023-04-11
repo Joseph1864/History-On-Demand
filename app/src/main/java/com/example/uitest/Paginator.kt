@@ -2,17 +2,19 @@ package com.example.uitest
 
 
 class Paginator(
-    private val apiKey: String,
-    private val keyword: String
+    private val apiKey: String
 ) {
     private var offset = 0
     private var isLastPage = false
-    private var isLoading = false
+    private var keyword = ""
 
-    suspend fun getMoreEvents(): List<HistoricalEvent> {
-        if (isLoading || isLastPage) return emptyList()
+    suspend fun getMoreEvents(keyword: String): List<HistoricalEvent> {
+        if (keyword != this.keyword) {
+            offset = 0
+            isLastPage = false
+        }
+        if (isLastPage) return emptyList()
 
-        isLoading = true
         try {
             val response = RetrofitInstance.api.getHistoricalEvents(
                 apiKey = apiKey,
@@ -26,9 +28,8 @@ class Paginator(
             }
             return response
         } catch (e: Exception) {
-            throw e
-        } finally {
-            isLoading = false
+            println(e.message)
         }
+        return emptyList()
     }
 }

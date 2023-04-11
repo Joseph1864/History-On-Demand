@@ -22,19 +22,18 @@ class MainActivity : ComponentActivity() {
         setContent {
             UiTestTheme {
                 val uiState by homeViewModel.uiState.collectAsState()
-                var keywordInput by remember { mutableStateOf("") }
 
                 LazyColumn {
                     item {
                         TextField(
-                            value = homeViewModel.keyword,
-                            onValueChange = { homeViewModel.keyword = it},
+                            value = uiState.searchText,
+                            onValueChange = homeViewModel::onSearchTextChanged,
                             label = { Text("Enter a Keyword") },
                             modifier = Modifier.fillMaxWidth()
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Button(
-                            onClick = {homeViewModel::onKeywordChange}
+                            onClick = homeViewModel::onSearchClicked
                         ) {
                             Text(text = "search")
                         }
