@@ -27,14 +27,17 @@ class MainActivity : ComponentActivity() {
                 LazyColumn {
                     item {
                         TextField(
-                            value = keywordInput,
-                            onValueChange = { keywordInput = it },
+                            value = homeViewModel.keyword,
+                            onValueChange = { homeViewModel.keyword = it},
                             label = { Text("Enter a Keyword") },
-                            modifier = Modifier.padding(16.dp)
+                            modifier = Modifier.fillMaxWidth()
                         )
+                        Spacer(modifier = Modifier.height(8.dp))
                         Button(
-                            onClick = {}
-                        )
+                            onClick = {homeViewModel::onKeywordChange}
+                        ) {
+                            Text(text = "search")
+                        }
                     }
                     items(uiState.events.size) {
                         HistoricalEventCard(uiState.events[it])

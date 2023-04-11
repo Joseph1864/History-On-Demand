@@ -19,13 +19,12 @@ class Paginator(
                 keyword = keyword,
                 offset = offset
             )
-            val events = response
-            if (events.isEmpty()) {
+            if (response.isEmpty()) {
                 isLastPage = true
             } else {
-                offset += events.size
+                offset += response.size
             }
-            return events
+            return response
         } catch (e: Exception) {
             throw e
         } finally {

@@ -1,5 +1,8 @@
 package com.example.uitest.screens.home
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.uitest.HistoricalEvent
@@ -15,8 +18,13 @@ class HomeViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(ViewState())
     val uiState: StateFlow<ViewState> = _uiState.asStateFlow()
 
+    var keyword by mutableStateOf("")
     private val apiKey = "eaui/ZHQXSINNhzEtXfoAQ==Q55LXXAaO8fotgky"
-    private val keyword = "Rome"
+
+    fun onKeywordChange(newKeyword: String) {
+        keyword = newKeyword
+    }
+
     private val paginator = Paginator(apiKey, keyword)
 
     init {
