@@ -2,8 +2,8 @@ package com.example.uitest.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.uitest.HistoricalEvent
-import com.example.uitest.Paginator
+import com.example.uitest.data.remote.HistoricalEvent
+import com.example.uitest.data.Paginator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -1,4 +1,7 @@
-package com.example.uitest
+package com.example.uitest.data
+
+import com.example.uitest.data.remote.RetrofitInstance
+import com.example.uitest.data.remote.HistoricalEvent
 
 
 class Paginator(

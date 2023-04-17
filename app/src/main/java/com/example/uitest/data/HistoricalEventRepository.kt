@@ -1,4 +1,9 @@
-package com.example.uitest
+package com.example.uitest.data
+
+import com.example.uitest.data.local.HistoricalEventDao
+import com.example.uitest.data.remote.RetrofitInstance
+import com.example.uitest.data.remote.HistoricalEvent
+import com.example.uitest.data.remote.HistoricalEventApiService
 
 class HistoricalEventRepository(
     private val historicalEventDao: HistoricalEventDao,

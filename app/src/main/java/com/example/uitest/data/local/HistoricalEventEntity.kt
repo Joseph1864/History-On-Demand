@@ -1,10 +1,11 @@
-package com.example.uitest
+package com.example.uitest.data.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "historicalEvents")
-data class HistoricalEvent(
+
+@Entity(tableName = "historicalevententity")
+data class HistoricalEventEntity (
     @PrimaryKey(autoGenerate = true) val id: Int,
     val day: String,
     val event: String,
