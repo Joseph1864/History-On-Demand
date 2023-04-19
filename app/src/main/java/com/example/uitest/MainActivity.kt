@@ -11,38 +11,52 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.uitest.domain.HistoricalEvent
-import com.example.uitest.screens.home.HomeViewModel
+import com.example.uitest.presentation.HistoricalEventScreen
+import com.example.uitest.presentation.HistoricalEventViewModel
+//import com.example.uitest.screens.home.HomeViewModel
 import com.example.uitest.ui.theme.UiTestTheme
 
 class MainActivity : ComponentActivity() {
 
-    private val homeViewModel by viewModels<HomeViewModel>()
+    //private val homeViewModel by viewModels<HomeViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             UiTestTheme {
-                val uiState by homeViewModel.uiState.collectAsState()
+                Surface(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    val viewModel = ViewModelProvider(this).get(HistoricalEventViewModel::class.java)
+                    val historicalEvents = viewModel.historicalEventPagingFlow.collectAsLazyPagingItems()
+                    HistoricalEventScreen(historicalEvents = historicalEvents)
 
-                LazyColumn {
-                    item {
-                        TextField(
-                            value = uiState.searchText,
-                            onValueChange = homeViewModel::onSearchTextChanged,
-                            label = { Text("Enter a Keyword") },
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Button(
-                            onClick = homeViewModel::onSearchClicked
-                        ) {
-                            Text(text = "search")
-                        }
-                    }
-                    items(uiState.events.size) {
-                        HistoricalEventCard(uiState.events[it])
-                    }
                 }
+
+//                val uiState by homeViewModel.uiState.collectAsState()
+//
+//                LazyColumn {
+//                    item {
+//                        TextField(
+//                            value = uiState.searchText,
+//                            onValueChange = homeViewModel::onSearchTextChanged,
+//                            label = { Text("Enter a Keyword") },
+//                            modifier = Modifier.fillMaxWidth()
+//                        )
+//                        Spacer(modifier = Modifier.height(8.dp))
+//                        Button(
+//                            onClick = homeViewModel::onSearchClicked
+//                        ) {
+//                            Text(text = "search")
+//                        }
+//                    }
+//                    items(uiState.events.size) {
+//                        HistoricalEventCard(uiState.events[it])
+//                    }
+//                }
 
             }
         }

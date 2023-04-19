@@ -12,3 +12,13 @@ fun HistoricalEvent.toHistoricalEventEntity(): HistoricalEventEntity {
         year = year
     )
 }
+
+fun HistoricalEventEntity.toHistoricalEvent(): HistoricalEvent {
+    return HistoricalEvent(
+        id = id,
+        day = day,
+        event = event,
+        month = month,
+        year = year
+    )
+}

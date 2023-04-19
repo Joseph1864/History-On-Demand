@@ -11,7 +11,7 @@ interface HistoricalEventDao {
     fun upsertAll(historicalEvents: List<HistoricalEventEntity>)
 
     @Query("SELECT * FROM historicalevententity")
-    fun pagingSource(): PagingSource<Int, HistoricalEventEntity>
+    fun pagingSource(): PagingSource<Int, HistoricalEvent>
 
     @Query("DELETE FROM historicalevententity")
     suspend fun clearAll()

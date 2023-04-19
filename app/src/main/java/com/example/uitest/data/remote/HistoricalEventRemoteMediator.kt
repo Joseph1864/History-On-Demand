@@ -14,7 +14,7 @@ import retrofit2.HttpException
 @OptIn(ExperimentalPagingApi::class)
 class HistoricalEventRemoteMediator (
     private val historicalEventDb: HistoricalEventDatabase,
-    private val historicalEventApi: HistoricalEventApiService,
+    private val historicalEventApi: HistoricalEventApi,
     private val apiKey: String
     ): RemoteMediator<Int, HistoricalEvent>() {
 
