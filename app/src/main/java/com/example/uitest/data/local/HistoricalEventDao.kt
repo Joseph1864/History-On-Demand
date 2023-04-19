@@ -2,16 +2,13 @@ package com.example.uitest.data.local
 
 import androidx.paging.PagingSource
 import androidx.room.*
-import com.example.uitest.data.remote.HistoricalEvent
+import com.example.uitest.domain.HistoricalEvent
 
 @Dao
 interface HistoricalEventDao {
 
-//    @Query("SELECT * FROM historicalevententity")
-//    fun getAll(): List<HistoricalEvent>
-
     @Upsert
-    fun upsertAll(historicalEvents: List<HistoricalEvent>)
+    fun upsertAll(historicalEvents: List<HistoricalEventEntity>)
 
     @Query("SELECT * FROM historicalevententity")
     fun pagingSource(): PagingSource<Int, HistoricalEventEntity>

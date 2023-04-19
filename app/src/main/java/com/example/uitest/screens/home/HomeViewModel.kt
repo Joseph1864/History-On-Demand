@@ -2,15 +2,17 @@ package com.example.uitest.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.uitest.data.remote.HistoricalEvent
+import androidx.paging.Pager
+import com.example.uitest.domain.HistoricalEvent
 import com.example.uitest.data.Paginator
+import com.example.uitest.data.local.HistoricalEventEntity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel: ViewModel() {
     private val apiKey = "eaui/ZHQXSINNhzEtXfoAQ==Q55LXXAaO8fotgky"
 
     private val _uiState = MutableStateFlow(ViewState())

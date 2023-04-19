@@ -6,6 +6,8 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.uitest.data.local.HistoricalEventDatabase
+import com.example.uitest.data.mappers.toHistoricalEventEntity
+import com.example.uitest.domain.HistoricalEvent
 import okio.IOException
 import retrofit2.HttpException
 
@@ -30,7 +32,7 @@ class HistoricalEventRemoteMediator (
                     val lastItem = state.lastItemOrNull()
                     if(lastItem == null) {
                         0
-                    } else {
+                    } else { //What if the id is random??
                         (lastItem.id / state.config.pageSize) + 1
                     }
                 }
@@ -49,8 +51,8 @@ class HistoricalEventRemoteMediator (
                 if(loadType == LoadType.REFRESH) {
                     historicalEventDb.dao.clearAll()
                 }
-                //val historicalEventEntities = response.map { it.toHistoricalEventEntity() }
-                historicalEventDb.dao.upsertAll()
+                val historicalEventEntities = response.map { it.toHistoricalEventEntity() }
+                historicalEventDb.dao.upsertAll(historicalEventEntities)
             }
             MediatorResult.Success(
                 endOfPaginationReached = response.isEmpty()
