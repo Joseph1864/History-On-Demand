@@ -14,24 +14,24 @@ import androidx.compose.ui.unit.dp
 import com.example.uitest.domain.HistoricalEvent
 
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun HistoricalEventCard(event: HistoricalEvent) {
-    Card(modifier = Modifier
-        .padding(32.dp, 16.dp)
-        .fillMaxWidth()
-        .wrapContentHeight(),
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
-    ) {
-        Text(
-            modifier = Modifier.padding(bottom = 8.dp),
-            text = "${event.day} ${event.month} ${event.year}"
-        )
-        Text(
-            modifier = Modifier.padding(bottom = 8.dp),
-            text = event.event
-        )
-    }
-
-}
+//@OptIn(ExperimentalMaterial3Api::class)
+//@Composable
+//fun HistoricalEventCard(event: HistoricalEvent) {
+//    Card(modifier = Modifier
+//        .padding(32.dp, 16.dp)
+//        .fillMaxWidth()
+//        .wrapContentHeight(),
+//        shape = RoundedCornerShape(16.dp),
+//        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+//    ) {
+//        Text(
+//            modifier = Modifier.padding(bottom = 8.dp),
+//            text = "${event.day} ${event.month} ${event.year}"
+//        )
+//        Text(
+//            modifier = Modifier.padding(bottom = 8.dp),
+//            text = event.event
+//        )
+//    }
+//
+//}

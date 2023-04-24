@@ -1,18 +1,18 @@
 package com.example.uitest.screens.home
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.cachedIn
-import androidx.paging.map
-import com.example.uitest.domain.HistoricalEvent
-import com.example.uitest.data.Paginator
-import com.example.uitest.data.local.HistoricalEventEntity
-import com.example.uitest.data.mappers.toHistoricalEvent
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
-
-//class HomeViewModel: ViewModel() {
+//import androidx.lifecycle.ViewModel
+//import androidx.lifecycle.viewModelScope
+//import androidx.paging.Pager
+//import androidx.paging.cachedIn
+//import androidx.paging.map
+//import com.example.uitest.domain.HistoricalEvent
+//import com.example.uitest.data.Paginator
+//import com.example.uitest.data.local.HistoricalEventEntity
+//import com.example.uitest.data.mappers.toHistoricalEvent
+//import kotlinx.coroutines.flow.*
+//import kotlinx.coroutines.launch
+//
+////class HomeViewModel: ViewModel() {
 //    private val apiKey = "eaui/ZHQXSINNhzEtXfoAQ==Q55LXXAaO8fotgky"
 //
 //    private val _uiState = MutableStateFlow(ViewState())

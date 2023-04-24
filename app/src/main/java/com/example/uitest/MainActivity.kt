@@ -3,20 +3,21 @@ package com.example.uitest
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.example.uitest.data.local.HistoricalEventDatabase
+import com.example.uitest.data.remote.HistoricalEventApi
+import com.example.uitest.di.AppModule
 import com.example.uitest.domain.HistoricalEvent
 import com.example.uitest.presentation.HistoricalEventScreen
 import com.example.uitest.presentation.HistoricalEventViewModel
+import com.example.uitest.presentation.HistoricalEventViewModelFactory
 //import com.example.uitest.screens.home.HomeViewModel
 import com.example.uitest.ui.theme.UiTestTheme
 
@@ -30,7 +31,20 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    val viewModel = ViewModelProvider(this).get(HistoricalEventViewModel::class.java)
+                    val historicalEventApp = application as HistoricalEventApp
+                    val appModule = historicalEventApp.appModule
+                    val context = applicationContext
+
+                    val historicalEventDb = appModule.provideHistoricalEventDatabase(context = context)
+                    val historicalEventApi = appModule.provideHistoricalEventApi()
+
+                    val viewModelFactory = HistoricalEventViewModelFactory(
+                        pager = AppModule.provideHistoricalEventPager(
+                            historicalEventDb = historicalEventDb,
+                            historicalEventApi = historicalEventApi
+                        )
+                    )
+                    val viewModel = ViewModelProvider(this, viewModelFactory).get(HistoricalEventViewModel::class.java)
                     val historicalEvents = viewModel.historicalEventPagingFlow.collectAsLazyPagingItems()
                     HistoricalEventScreen(historicalEvents = historicalEvents)
 
