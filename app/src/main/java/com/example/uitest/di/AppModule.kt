@@ -39,14 +39,16 @@ object AppModule {
 
     fun provideHistoricalEventPager(
         historicalEventDb: HistoricalEventDatabase,
-        historicalEventApi: HistoricalEventApi
+        historicalEventApi: HistoricalEventApi,
+        keyword: String
         ): Pager<Int, HistoricalEvent> {
         return Pager(
             config = PagingConfig(pageSize = 10),
             remoteMediator = HistoricalEventRemoteMediator(
                 historicalEventDb = historicalEventDb,
                 historicalEventApi = historicalEventApi,
-                apiKey = "eaui/ZHQXSINNhzEtXfoAQ==Q55LXXAaO8fotgky"
+                apiKey = "eaui/ZHQXSINNhzEtXfoAQ==Q55LXXAaO8fotgky",
+                keyword = keyword
             ),
             pagingSourceFactory = {
                 historicalEventDb.dao.pagingSource()

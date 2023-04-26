@@ -15,7 +15,8 @@ import retrofit2.HttpException
 class HistoricalEventRemoteMediator (
     private val historicalEventDb: HistoricalEventDatabase,
     private val historicalEventApi: HistoricalEventApi,
-    private val apiKey: String
+    private val apiKey: String,
+    private val keyword: String
     ): RemoteMediator<Int, HistoricalEvent>() {
 
     override suspend fun load(
@@ -32,7 +33,7 @@ class HistoricalEventRemoteMediator (
                     val lastItem = state.lastItemOrNull()
                     if(lastItem == null) {
                         0
-                    } else { //What if the id is random??
+                    } else {
                         (lastItem.id / state.config.pageSize) + 1
                     }
                 }
@@ -40,12 +41,9 @@ class HistoricalEventRemoteMediator (
 
             val response = historicalEventApi.getHistoricalEvents(
                 apiKey = apiKey,
-                keyword = "Rome",
+                keyword = keyword,
                 offset = loadKey
             )
-            //Have I been able to call get an api request this whole time by calling
-            // historicalEventApi.getHistoricalEvents() this whole time instead of the longer version below?
-            //val response = RetrofitInstance.api.getHistoricalEvents
 
             historicalEventDb.withTransaction {
                 if(loadType == LoadType.REFRESH) {
@@ -63,6 +61,4 @@ class HistoricalEventRemoteMediator (
             MediatorResult.Error(e)
         }
     }
-
-
 }

@@ -6,7 +6,6 @@ package com.example.uitest.screens.home
 //import androidx.paging.cachedIn
 //import androidx.paging.map
 //import com.example.uitest.domain.HistoricalEvent
-//import com.example.uitest.data.Paginator
 //import com.example.uitest.data.local.HistoricalEventEntity
 //import com.example.uitest.data.mappers.toHistoricalEvent
 //import kotlinx.coroutines.flow.*
