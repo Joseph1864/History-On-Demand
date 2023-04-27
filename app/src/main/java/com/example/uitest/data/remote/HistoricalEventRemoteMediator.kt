@@ -12,41 +12,42 @@ import okio.IOException
 import retrofit2.HttpException
 
 @OptIn(ExperimentalPagingApi::class)
-class HistoricalEventRemoteMediator (
+class HistoricalEventRemoteMediator(
     private val historicalEventDb: HistoricalEventDatabase,
     private val historicalEventApi: HistoricalEventApi,
     private val apiKey: String,
     private val keyword: String
-    ): RemoteMediator<Int, HistoricalEvent>() {
+) : RemoteMediator<Int, HistoricalEvent>() {
+
+    private var offset = 0
 
     override suspend fun load(
         loadType: LoadType,
-        state:PagingState<Int, HistoricalEvent>
+        state: PagingState<Int, HistoricalEvent>
     ): MediatorResult {
         return try {
-            val loadKey = when(loadType) {
-                LoadType.REFRESH -> 0
-                LoadType.PREPEND -> return MediatorResult.Success(
-                    endOfPaginationReached = true
-                )
+            when (loadType) {
+                LoadType.REFRESH -> {
+                    offset = 0
+                }
+                LoadType.PREPEND -> {
+                    return MediatorResult.Success(
+                        endOfPaginationReached = true
+                    )
+                }
                 LoadType.APPEND -> {
-                    val lastItem = state.lastItemOrNull()
-                    if(lastItem == null) {
-                        0
-                    } else {
-                        (lastItem.id / state.config.pageSize) + 1
-                    }
+                    offset += 10
                 }
             }
 
             val response = historicalEventApi.getHistoricalEvents(
                 apiKey = apiKey,
                 keyword = keyword,
-                offset = loadKey
+                offset = offset
             )
 
             historicalEventDb.withTransaction {
-                if(loadType == LoadType.REFRESH) {
+                if (loadType == LoadType.REFRESH) {
                     historicalEventDb.dao.clearAll()
                 }
                 val historicalEventEntities = response.map { it.toHistoricalEventEntity() }
@@ -57,7 +58,7 @@ class HistoricalEventRemoteMediator (
             )
         } catch (e: IOException) {
             MediatorResult.Error(e)
-        } catch(e: HttpException) {
+        } catch (e: HttpException) {
             MediatorResult.Error(e)
         }
     }
