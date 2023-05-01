@@ -10,35 +10,30 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModelProvider
 import androidx.paging.LoadState
-import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.items
-import com.example.uitest.domain.HistoricalEvent
-
 @Composable
 fun HistoricalEventScreen(
-    historicalEvents: LazyPagingItems<HistoricalEvent>
+    viewModel: HistoricalEventViewModel
 ) {
     val context = LocalContext.current
-    val historicalEventViewModel = ViewModelProvider(this).get(HistoricalEventViewModel::class.java)
-    val uiState by historicalEventViewModel.uiState.collectAsState()
-    LaunchedEffect(key1 = historicalEvents.loadState) {
-        if(historicalEvents.loadState.refresh is LoadState.Error) {
+    val uiState by viewModel.uiState.collectAsState()
+    LaunchedEffect(key1 = uiState.events.loadState) {
+        if(uiState.loadState.refresh is LoadState.Error) {
             Toast.makeText(
                 context,
-                "Error: " + (historicalEvents.loadState.refresh as LoadState.Error).error.message,
+                "Error: " + (uiState.loadState.refresh as LoadState.Error).error.message,
                 Toast.LENGTH_SHORT
             ).show()
         }
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
-        if(historicalEvents.loadState.refresh is LoadState.Loading) {
+        if(uiState.loadState.refresh is LoadState.Loading) {
             CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center)
             )
@@ -51,26 +46,25 @@ fun HistoricalEventScreen(
                 item {
                         TextField(
                             value = uiState.searchText,
-                            onValueChange = historicalEventViewModel::onSearchTextChanged,
+                            onValueChange = viewModel::onSearchTextChanged,
                             label = { Text("Enter a Keyword") },
                             modifier = Modifier.fillMaxWidth()
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Button(
-                            onClick = historicalEventViewModel::onSearchClicked
+                            onClick = viewModel::onSearchClicked
                         ) {
                             Text(text = "search")
                         }
                     }
-                items(historicalEvents) { historicalEvent ->
+                items(uiState.events) { historicalEvent ->
                     if (historicalEvent != null) {
-                        HistoricalEventCard(
-                            event = historicalEvent
+                        HistoricalEventCard(uiState.events[historicalEvent]
                         )
                     }
                 }
                 item {
-                    if(historicalEvents.loadState.append is LoadState.Loading) {
+                    if(uiState.loadState.append is LoadState.Loading) {
                         CircularProgressIndicator()
                     }
                 }
