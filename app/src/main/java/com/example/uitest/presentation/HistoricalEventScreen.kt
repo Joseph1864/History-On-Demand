@@ -20,6 +20,7 @@ import androidx.paging.LoadState
 fun HistoricalEventScreen(
     viewModel: HistoricalEventViewModel
 ) {
+
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsState()
     LaunchedEffect(key1 = uiState.events.loadState) {

@@ -12,7 +12,7 @@ import okio.IOException
 import retrofit2.HttpException
 
 @OptIn(ExperimentalPagingApi::class)
-class HistoricalEventRemoteMediator (
+class HistoricalEventRemoteMediator(
     private val historicalEventDb: HistoricalEventDatabase,
     private val historicalEventApi: HistoricalEventApi,
     private val apiKey: String,
@@ -23,7 +23,7 @@ class HistoricalEventRemoteMediator (
 
     override suspend fun load(
         loadType: LoadType,
-        state:PagingState<Int, HistoricalEvent>
+        state: PagingState<Int, HistoricalEvent>
     ): MediatorResult {
         return try {
             when(loadType) {

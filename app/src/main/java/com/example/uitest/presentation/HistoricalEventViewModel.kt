@@ -9,8 +9,12 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.map
 import com.example.uitest.domain.HistoricalEvent
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class HistoricalEventViewModel(
@@ -40,13 +44,13 @@ class HistoricalEventViewModel(
             _uiState.update {
                 it.copy(
                     events = LazyPagingItems(pager.flow)
-                )
             }
         }
     }
-}
+
 
 data class ViewState(
     val searchText: String = "",
     val events: LazyPagingItems<HistoricalEvent> = LazyPagingItems(emptyList())
 )
+
