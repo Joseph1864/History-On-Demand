@@ -12,10 +12,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.uitest.domain.HistoricalEvent
+import java.text.SimpleDateFormat
+import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HistoricalEventCard(event: HistoricalEvent) {
+    val eventDate = Calendar.getInstance()
+    eventDate.set(
+        event.year.toInt(),
+        event.month.toInt() -1,
+        event.day.toInt()
+    )
+    val dateFormat = SimpleDateFormat("MMMM d, y G", Locale.getDefault())
+    val dateString = dateFormat.format(eventDate.time)
+
+
     Card(modifier = Modifier
         .padding(32.dp, 16.dp)
         .fillMaxWidth()
@@ -25,7 +37,7 @@ fun HistoricalEventCard(event: HistoricalEvent) {
     ) {
         Text(
             modifier = Modifier.padding(bottom = 8.dp),
-            text = "${event.day} ${event.month} ${event.year}"
+            text = dateString
         )
         Text(
             modifier = Modifier.padding(bottom = 8.dp),

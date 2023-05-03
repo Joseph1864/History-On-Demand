@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
                         pager = AppModule.provideHistoricalEventPager(
                             historicalEventDb = historicalEventDb,
                             historicalEventApi = historicalEventApi,
-                            keyword = "Rome"
+                            keyword = "Roman"
                         )
                     )
                     val viewModel = ViewModelProvider(this, viewModelFactory)[HistoricalEventViewModel::class.java]
