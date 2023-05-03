@@ -7,15 +7,14 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
+
 @Composable
 fun HistoricalEventScreen(
     viewModel: HistoricalEventViewModel
@@ -23,18 +22,21 @@ fun HistoricalEventScreen(
 
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsState()
-    LaunchedEffect(key1 = uiState.events.loadState) {
-        if(uiState.loadState.refresh is LoadState.Error) {
+
+    val historicalEvents = viewModel.historicalEventPagingFlow.collectAsLazyPagingItems()
+
+    LaunchedEffect(key1 = historicalEvents.loadState) {
+        if(historicalEvents.loadState.refresh is LoadState.Error) {
             Toast.makeText(
                 context,
-                "Error: " + (uiState.loadState.refresh as LoadState.Error).error.message,
+                "Error: " + (historicalEvents.loadState.refresh as LoadState.Error).error.message,
                 Toast.LENGTH_SHORT
             ).show()
         }
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
-        if(uiState.loadState.refresh is LoadState.Loading) {
+        if(historicalEvents.loadState.refresh is LoadState.Loading) {
             CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center)
             )
@@ -58,19 +60,18 @@ fun HistoricalEventScreen(
                             Text(text = "search")
                         }
                     }
-                items(uiState.events) { historicalEvent ->
+                items(historicalEvents.itemCount) { index ->
+                    val historicalEvent = historicalEvents[index]
                     if (historicalEvent != null) {
-                        HistoricalEventCard(uiState.events[historicalEvent]
-                        )
+                        HistoricalEventCard(historicalEvent)
                     }
                 }
                 item {
-                    if(uiState.loadState.append is LoadState.Loading) {
+                    if(historicalEvents.loadState.append is LoadState.Loading) {
                         CircularProgressIndicator()
                     }
                 }
             }
         }
     }
-
 }

@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import androidx.paging.compose.LazyPagingItems
 import androidx.paging.map
 import com.example.uitest.domain.HistoricalEvent
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +12,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -40,17 +38,18 @@ class HistoricalEventViewModel(
     }
 
     fun onSearchClicked() = viewModelScope.launch {
-        pager.flow.collectLatest { lazyPagingItems->
+        pager.flow.collectLatest { pagingData ->
             _uiState.update {
                 it.copy(
-                    events = LazyPagingItems(pager.flow)
+                    events = pagingData
+                )
             }
         }
     }
-
+}
 
 data class ViewState(
     val searchText: String = "",
-    val events: LazyPagingItems<HistoricalEvent> = LazyPagingItems(emptyList())
+    val events: PagingData<HistoricalEvent> = PagingData.empty()
 )
 
