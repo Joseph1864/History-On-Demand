@@ -28,13 +28,20 @@ class MainActivity : ComponentActivity() {
 
                     val historicalEventDb = appModule.provideHistoricalEventDatabase(context = context)
                     val historicalEventApi = appModule.provideHistoricalEventApi()
-
+                    val remoteMediator = appModule.provideRemoteMediator(
+                        historicalEventDb = historicalEventDb,
+                        historicalEventApi = historicalEventApi,
+                    )
+                    val pager = appModule.provideHistoricalEventPager(
+                        remoteMediator = remoteMediator,
+                        historicalEventDb = historicalEventDb,
+                    )
+                    val repository = appModule.provideRepository(
+                        pager = pager,
+                        remoteMediator = remoteMediator,
+                    )
                     val viewModelFactory = HistoricalEventViewModelFactory(
-                        pager = AppModule.provideHistoricalEventPager(
-                            historicalEventDb = historicalEventDb,
-                            historicalEventApi = historicalEventApi,
-                            keyword = "Roman"
-                        )
+                        repository = repository,
                     )
                     val viewModel = ViewModelProvider(this, viewModelFactory)[HistoricalEventViewModel::class.java]
                     HistoricalEventScreen(viewModel)

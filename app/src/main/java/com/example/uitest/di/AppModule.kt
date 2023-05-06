@@ -6,9 +6,9 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.room.Room
 import com.example.uitest.data.local.HistoricalEventDatabase
-import com.example.uitest.data.local.HistoricalEventEntity
 import com.example.uitest.data.remote.HistoricalEventApi
 import com.example.uitest.data.remote.HistoricalEventRemoteMediator
+import com.example.uitest.data.remote.HistoricalEventRepository
 import com.example.uitest.domain.HistoricalEvent
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
@@ -25,7 +25,10 @@ object AppModule {
         ).build()
     }
 
-    private val client = OkHttpClient.Builder().build()
+    private val client = OkHttpClient
+        .Builder()
+        .addInterceptor()
+        .build()
 
     fun provideHistoricalEventApi(): HistoricalEventApi {
         return Retrofit.Builder()
@@ -37,22 +40,32 @@ object AppModule {
             .create(HistoricalEventApi::class.java)
     }
 
-    fun provideHistoricalEventPager(
+    fun provideRemoteMediator(
         historicalEventDb: HistoricalEventDatabase,
         historicalEventApi: HistoricalEventApi,
-        keyword: String
-        ): Pager<Int, HistoricalEvent> {
+    ) = HistoricalEventRemoteMediator(
+        historicalEventDb = historicalEventDb,
+        historicalEventApi = historicalEventApi,
+    )
+
+    fun provideHistoricalEventPager(
+        remoteMediator: HistoricalEventRemoteMediator,
+        historicalEventDb: HistoricalEventDatabase,
+    ): Pager<Int, HistoricalEvent> {
         return Pager(
             config = PagingConfig(pageSize = 10),
-            remoteMediator = HistoricalEventRemoteMediator(
-                historicalEventDb = historicalEventDb,
-                historicalEventApi = historicalEventApi,
-                apiKey = "eaui/ZHQXSINNhzEtXfoAQ==Q55LXXAaO8fotgky",
-                keyword = keyword
-            ),
+            remoteMediator = remoteMediator,
             pagingSourceFactory = {
                 historicalEventDb.dao.pagingSource()
             }
         )
     }
+
+    fun provideRepository(
+        pager: Pager<Int, HistoricalEvent>,
+        remoteMediator: HistoricalEventRemoteMediator,
+    ) = HistoricalEventRepository(
+        pager = pager,
+        remoteMediator = remoteMediator,
+    )
 }

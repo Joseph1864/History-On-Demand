@@ -15,18 +15,21 @@ import retrofit2.HttpException
 class HistoricalEventRemoteMediator(
     private val historicalEventDb: HistoricalEventDatabase,
     private val historicalEventApi: HistoricalEventApi,
-    private val apiKey: String,
-    private val keyword: String
-    ) : RemoteMediator<Int, HistoricalEvent>() {
+) : RemoteMediator<Int, HistoricalEvent>() {
 
     private var offset = 0
+    private var keyword = ""
+
+    fun setKeyword(keyword: String) {
+        this.keyword = keyword
+    }
 
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, HistoricalEvent>
     ): MediatorResult {
         return try {
-            when(loadType) {
+            when (loadType) {
                 LoadType.REFRESH -> {
                     offset = 0
                 }
@@ -35,7 +38,7 @@ class HistoricalEventRemoteMediator(
                 )
                 LoadType.APPEND -> {
                     val lastItem = state.lastItemOrNull()
-                    if(lastItem == null) {
+                    if (lastItem == null) {
                         offset = 0
                     } else {
                         offset += 10
@@ -44,7 +47,6 @@ class HistoricalEventRemoteMediator(
             }
 
             val response = historicalEventApi.getHistoricalEvents(
-                apiKey = apiKey,
                 keyword = keyword,
                 offset = offset
             )

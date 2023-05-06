@@ -2,32 +2,34 @@ package com.example.uitest.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import androidx.paging.map
+import com.example.uitest.data.remote.HistoricalEventRepository
 import com.example.uitest.domain.HistoricalEvent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class HistoricalEventViewModel(
-    private val pager: Pager<Int, HistoricalEvent>
+    private val repository: HistoricalEventRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ViewState())
     val uiState: StateFlow<ViewState> = _uiState.asStateFlow()
 
-    val historicalEventPagingFlow = pager
-        .flow
-        .map { pagingData ->
-            pagingData.map { it }
+    private val _historicalEventPagingFlow: MutableStateFlow<PagingData<HistoricalEvent>> =
+        MutableStateFlow(PagingData.empty())
+    var historicalEventPagingFlow = _historicalEventPagingFlow.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            repository.events("King Charles")
+                .cachedIn(viewModelScope)
+                .collect(_historicalEventPagingFlow)
         }
-        .cachedIn(viewModelScope)
+    }
 
     fun onSearchTextChanged(text: String) {
         _uiState.update {
@@ -38,13 +40,9 @@ class HistoricalEventViewModel(
     }
 
     fun onSearchClicked() = viewModelScope.launch {
-        pager.flow.collectLatest { pagingData ->
-            _uiState.update {
-                it.copy(
-                    events = pagingData
-                )
-            }
-        }
+        repository.events(_uiState.value.searchText)
+            .cachedIn(viewModelScope)
+            .collect(_historicalEventPagingFlow)
     }
 }
 
