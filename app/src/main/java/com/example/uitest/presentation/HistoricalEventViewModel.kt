@@ -25,7 +25,7 @@ class HistoricalEventViewModel(
 
     init {
         viewModelScope.launch {
-            repository.events("King Charles")
+            repository.events(" ")
                 .cachedIn(viewModelScope)
                 .collect(_historicalEventPagingFlow)
         }

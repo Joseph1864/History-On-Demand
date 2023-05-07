@@ -8,5 +8,6 @@ class AuthInterceptor : Interceptor {
         val request = chain.request().newBuilder()
             .header("X-Api-Key", "eaui/ZHQXSINNhzEtXfoAQ==Q55LXXAaO8fotgky")
             .build()
+        return chain.proceed(request)
     }
 }

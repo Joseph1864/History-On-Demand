@@ -12,7 +12,7 @@ class HistoricalEventRepository(
     private val pager: Pager<Int, HistoricalEvent>
 ) {
 
-    fun events(keyword: String = "king charles"): Flow<PagingData<HistoricalEvent>> {
+    fun events(keyword: String): Flow<PagingData<HistoricalEvent>> {
         remoteMediator.setKeyword(keyword)
         return pager
             .flow

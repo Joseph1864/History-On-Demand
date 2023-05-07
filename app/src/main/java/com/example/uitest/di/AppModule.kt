@@ -6,6 +6,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.room.Room
 import com.example.uitest.data.local.HistoricalEventDatabase
+import com.example.uitest.data.remote.AuthInterceptor
 import com.example.uitest.data.remote.HistoricalEventApi
 import com.example.uitest.data.remote.HistoricalEventRemoteMediator
 import com.example.uitest.data.remote.HistoricalEventRepository
@@ -27,7 +28,7 @@ object AppModule {
 
     private val client = OkHttpClient
         .Builder()
-        .addInterceptor()
+        .addInterceptor(AuthInterceptor())
         .build()
 
     fun provideHistoricalEventApi(): HistoricalEventApi {
