@@ -25,7 +25,7 @@ class HistoricalEventViewModel(
 
     init {
         viewModelScope.launch {
-            repository.events(" ")
+            repository.events(_uiState.value.searchText) //Changed from " "
                 .cachedIn(viewModelScope)
                 .collect(_historicalEventPagingFlow)
         }
