@@ -16,57 +16,57 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-@OptIn(ExperimentalPagingApi::class)
-object AppModule {
-    fun provideHistoricalEventDatabase(context: Context): HistoricalEventDatabase {
-        return Room.databaseBuilder(
-            context,
-            HistoricalEventDatabase::class.java,
-            "historicalevent.db"
-        ).build()
-    }
-
-    private val client = OkHttpClient
-        .Builder()
-        .addInterceptor(AuthInterceptor())
-        .build()
-
-    fun provideHistoricalEventApi(): HistoricalEventApi {
-        return Retrofit.Builder()
-            .baseUrl("https://api.api-ninjas.com")
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(CoroutineCallAdapterFactory())
-            .client(AppModule.client)
-            .build()
-            .create(HistoricalEventApi::class.java)
-    }
-
-    fun provideRemoteMediator(
-        historicalEventDb: HistoricalEventDatabase,
-        historicalEventApi: HistoricalEventApi,
-    ) = HistoricalEventRemoteMediator(
-        historicalEventDb = historicalEventDb,
-        historicalEventApi = historicalEventApi,
-    )
-
-    fun provideHistoricalEventPager(
-        remoteMediator: HistoricalEventRemoteMediator,
-        historicalEventDb: HistoricalEventDatabase,
-    ): Pager<Int, HistoricalEvent> {
-        return Pager(
-            config = PagingConfig(pageSize = 10),
-            remoteMediator = remoteMediator,
-            pagingSourceFactory = {
-                historicalEventDb.dao.pagingSource()
-            }
-        )
-    }
-
-    fun provideRepository(
-        pager: Pager<Int, HistoricalEvent>,
-        remoteMediator: HistoricalEventRemoteMediator,
-    ) = HistoricalEventRepository(
-        pager = pager,
-        remoteMediator = remoteMediator,
-    )
-}
+//@OptIn(ExperimentalPagingApi::class)
+//object AppModule {
+//    fun provideHistoricalEventDatabase(context: Context): HistoricalEventDatabase {
+//        return Room.databaseBuilder(
+//            context,
+//            HistoricalEventDatabase::class.java,
+//            "historicalevent.db"
+//        ).build()
+//    }
+//
+//    private val client = OkHttpClient
+//        .Builder()
+//        .addInterceptor(AuthInterceptor())
+//        .build()
+//
+//    fun provideHistoricalEventApi(): HistoricalEventApi {
+//        return Retrofit.Builder()
+//            .baseUrl("https://api.api-ninjas.com")
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .addCallAdapterFactory(CoroutineCallAdapterFactory())
+//            .client(client)
+//            .build()
+//            .create(HistoricalEventApi::class.java)
+//    }
+//
+//    fun provideRemoteMediator(
+//        historicalEventDb: HistoricalEventDatabase,
+//        historicalEventApi: HistoricalEventApi,
+//    ) = HistoricalEventRemoteMediator(
+//        historicalEventDb = historicalEventDb,
+//        historicalEventApi = historicalEventApi,
+//    )
+//
+//    fun provideHistoricalEventPager(
+//        remoteMediator: HistoricalEventRemoteMediator,
+//        historicalEventDb: HistoricalEventDatabase,
+//    ): Pager<Int, HistoricalEvent> {
+//        return Pager(
+//            config = PagingConfig(pageSize = 10),
+//            remoteMediator = remoteMediator,
+//            pagingSourceFactory = {
+//                historicalEventDb.dao.pagingSource()
+//            }
+//        )
+//    }
+//
+//    fun provideRepository(
+//        pager: Pager<Int, HistoricalEvent>,
+//        remoteMediator: HistoricalEventRemoteMediator,
+//    ) = HistoricalEventRepository(
+//        pager = pager,
+//        remoteMediator = remoteMediator,
+//    )
+//}
