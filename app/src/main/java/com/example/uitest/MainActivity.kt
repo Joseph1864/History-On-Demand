@@ -27,31 +27,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    val historicalEventApp = application as HistoricalEventApp
-                    val appModule = historicalEventApp.appModule
-                    val context = applicationContext
-
-
-                    val historicalEventDb = appModule.provideHistoricalEventDatabase(context = context)
-                    val historicalEventApi = appModule.provideHistoricalEventApi()
-                    val remoteMediator = appModule.provideRemoteMediator(
-                        historicalEventDb = historicalEventDb,
-                        historicalEventApi = historicalEventApi,
-                    )
-                    val pager = appModule.provideHistoricalEventPager(
-                        remoteMediator = remoteMediator,
-                        historicalEventDb = historicalEventDb,
-                    )
-                    val repository = appModule.provideRepository(
-                        pager = pager,
-                        remoteMediator = remoteMediator,
-                    )
-                    val viewModelFactory = HistoricalEventViewModelFactory(
-                        repository = repository,
-                    )
-
                     HistoricalEventScreen(viewModel)
-
                 }
             }
         }
