@@ -12,7 +12,6 @@ import com.example.uitest.data.remote.HistoricalEventRepository
 import com.example.uitest.domain.HistoricalEvent
 import com.example.uitest.presentation.HistoricalEventViewModel
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -31,7 +30,7 @@ val appModules = module {
     single {
         OkHttpClient
             .Builder()
-            .addInterceptor(get<Interceptor>())
+            .addInterceptor(get<AuthInterceptor>())
             .build()
     }
     single {
@@ -66,7 +65,7 @@ val appModules = module {
     single {
         Pager(
             config = PagingConfig(pageSize = 10),
-            remoteMediator = get(),
+            remoteMediator = get<HistoricalEventRemoteMediator>(),
             pagingSourceFactory = {
                 get<HistoricalEventDatabase>().dao.pagingSource()
             }
