@@ -10,7 +10,7 @@ import com.example.uitest.data.remote.HistoricalEventApi
 import com.example.uitest.data.remote.HistoricalEventRemoteMediator
 import com.example.uitest.data.remote.HistoricalEventRepository
 import com.example.uitest.domain.HistoricalEvent
-import com.example.uitest.presentation.HistoricalEventViewModel
+import com.example.uitest.screens.HistoricalEventViewModel
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext

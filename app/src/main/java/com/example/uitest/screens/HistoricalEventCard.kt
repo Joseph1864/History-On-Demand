@@ -1,4 +1,4 @@
-package com.example.uitest.presentation
+package com.example.uitest.screens
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding

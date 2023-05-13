@@ -1,4 +1,4 @@
-package com.example.uitest.presentation
+package com.example.uitest.screens
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.*

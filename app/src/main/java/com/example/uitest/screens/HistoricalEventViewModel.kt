@@ -1,4 +1,4 @@
-package com.example.uitest.presentation
+package com.example.uitest.screens
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
