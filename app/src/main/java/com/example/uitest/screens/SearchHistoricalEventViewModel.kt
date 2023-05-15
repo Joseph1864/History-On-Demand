@@ -31,18 +31,16 @@ class HistoricalEventViewModel(
         }
     }
 
-    fun onSearchTextChanged(text: String) {
+    fun onSearchTextChanged(text: String) = viewModelScope.launch {
         _uiState.update {
             it.copy(
                 searchText = text
             )
         }
-    }
-
-    fun onSearchClicked() = viewModelScope.launch {
         repository.events(_uiState.value.searchText)
             .cachedIn(viewModelScope)
             .collect(_historicalEventPagingFlow)
+
     }
 }
 

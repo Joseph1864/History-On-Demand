@@ -3,13 +3,16 @@ package com.example.uitest.screens
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Button
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
@@ -35,31 +38,30 @@ fun HistoricalEventScreen(
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        if(historicalEvents.loadState.refresh is LoadState.Loading) {
+    Column(modifier = Modifier.fillMaxSize()) {
+        TextField(
+            value = uiState.searchText,
+            onValueChange = viewModel::onSearchTextChanged,
+            label = { Text("Enter a Keyword") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp, vertical = 16.dp)
+                .clip(RoundedCornerShape(percent = 50)),
+            colors = TextFieldDefaults.textFieldColors(
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent
+            )
+        )
+        if (historicalEvents.loadState.refresh is LoadState.Loading) {
             CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.Center)
+                modifier = Modifier.align(Alignment.CenterHorizontally)
             )
         } else {
             LazyColumn(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                item {
-                        TextField(
-                            value = uiState.searchText,
-                            onValueChange = viewModel::onSearchTextChanged,
-                            label = { Text("Enter a Keyword") },
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Button(
-                            onClick = viewModel::onSearchClicked
-                        ) {
-                            Text(text = "search")
-                        }
-                    }
                 items(historicalEvents.itemCount) { index ->
                     val historicalEvent = historicalEvents[index]
                     if (historicalEvent != null) {
@@ -67,7 +69,7 @@ fun HistoricalEventScreen(
                     }
                 }
                 item {
-                    if(historicalEvents.loadState.append is LoadState.Loading) {
+                    if (historicalEvents.loadState.append is LoadState.Loading) {
                         CircularProgressIndicator()
                     }
                 }
