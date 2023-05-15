@@ -10,12 +10,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 
-
+@Preview
 @Composable
-fun MainScreen(navController: NavController) {
+fun RandomHistoricalEventScreen() {
     Column(
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
@@ -23,23 +23,12 @@ fun MainScreen(navController: NavController) {
             .padding(horizontal = 16.dp)
     ) {
         Spacer(modifier = Modifier.weight(1f))
-        Button(onClick = {
-            navController.navigate(Screens.HistoricalEventScreen.route)
-        },
-        modifier = Modifier
-            .align(Alignment.CenterHorizontally)
+        Button(onClick = { /*TODO*/ },
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
         ) {
-            Text(text = "Search Historical Event")
+            Text(text = "Generate a fact!")
         }
-        Spacer(modifier = Modifier.weight(1f))
-        Button(onClick = {
-            navController.navigate(Screens.RandomHistoricalEventScreen.route)
-        },
-        modifier = Modifier
-            .align(Alignment.CenterHorizontally)
-        ) {
-            Text(text = "Random Historical Event")
-        }
-        Spacer(modifier = Modifier.weight(1f))
+
     }
 }

@@ -7,6 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.uitest.screens.HistoricalEventScreen
 import com.example.uitest.screens.HistoricalEventViewModel
 import com.example.uitest.screens.MainScreen
+import com.example.uitest.screens.RandomHistoricalEventScreen
 import com.example.uitest.screens.Screens
 import org.koin.androidx.compose.getViewModel
 
@@ -20,6 +21,9 @@ fun Navigation() {
         }
         composable(route = Screens.HistoricalEventScreen.route) {
             HistoricalEventScreen(viewModel = viewModel)
+        }
+        composable(route = Screens.RandomHistoricalEventScreen.route) {
+            RandomHistoricalEventScreen()
         }
     }
 }
