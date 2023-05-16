@@ -20,7 +20,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 
 @Composable
 fun HistoricalEventScreen(
-    viewModel: HistoricalEventViewModel
+    viewModel : HistoricalEventViewModel
 ) {
 
     val context = LocalContext.current
@@ -29,7 +29,7 @@ fun HistoricalEventScreen(
     val historicalEvents = viewModel.historicalEventPagingFlow.collectAsLazyPagingItems()
 
     LaunchedEffect(key1 = historicalEvents.loadState) {
-        if(historicalEvents.loadState.refresh is LoadState.Error) {
+        if (historicalEvents.loadState.refresh is LoadState.Error) {
             Toast.makeText(
                 context,
                 "Error: " + (historicalEvents.loadState.refresh as LoadState.Error).error.message,

@@ -19,7 +19,7 @@ fun Navigation() {
         composable(route = Screens.MainScreen.route) {
             MainScreen(navController = navController)
         }
-        composable(route = Screens.HistoricalEventScreen.route) {
+        composable(route = Screens.SearchHistoricalEventScreen.route) {
             HistoricalEventScreen(viewModel = viewModel)
         }
         composable(route = Screens.RandomHistoricalEventScreen.route) {
