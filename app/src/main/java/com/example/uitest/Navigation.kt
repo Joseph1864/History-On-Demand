@@ -5,7 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.uitest.screens.HistoricalEventScreen
-import com.example.uitest.screens.HistoricalEventViewModel
+import com.example.uitest.screens.SearchHistoricalEventViewModel
 import com.example.uitest.screens.MainScreen
 import com.example.uitest.screens.RandomHistoricalEventScreen
 import com.example.uitest.screens.Screens
@@ -13,7 +13,7 @@ import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun Navigation() {
-    val viewModel = getViewModel<HistoricalEventViewModel>()
+    val viewModel = getViewModel<SearchHistoricalEventViewModel>()
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screens.MainScreen.route) {
         composable(route = Screens.MainScreen.route) {

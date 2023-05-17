@@ -10,7 +10,7 @@ import com.example.uitest.data.remote.HistoricalEventApi
 import com.example.uitest.data.remote.HistoricalEventRemoteMediator
 import com.example.uitest.data.remote.HistoricalEventRepository
 import com.example.uitest.domain.HistoricalEvent
-import com.example.uitest.screens.HistoricalEventViewModel
+import com.example.uitest.screens.SearchHistoricalEventViewModel
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
@@ -22,7 +22,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 @OptIn(ExperimentalPagingApi::class)
 val appModules = module {
     viewModel {
-        HistoricalEventViewModel(get<HistoricalEventRepository>())
+        SearchHistoricalEventViewModel(get<HistoricalEventRepository>())
     }
     single {
         AuthInterceptor()

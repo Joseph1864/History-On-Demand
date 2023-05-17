@@ -20,7 +20,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 
 @Composable
 fun HistoricalEventScreen(
-    viewModel : HistoricalEventViewModel
+    viewModel : SearchHistoricalEventViewModel
 ) {
 
     val context = LocalContext.current

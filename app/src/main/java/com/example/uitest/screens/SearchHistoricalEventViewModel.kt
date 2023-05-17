@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class HistoricalEventViewModel(
+class SearchHistoricalEventViewModel(
     private val repository: HistoricalEventRepository,
 ) : ViewModel() {
 
