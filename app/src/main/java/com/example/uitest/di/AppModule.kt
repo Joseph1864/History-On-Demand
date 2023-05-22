@@ -78,7 +78,8 @@ val appModules = module {
     single {
         HistoricalEventRepository(
             pager = get<Pager<Int, HistoricalEvent>>(),
-            remoteMediator = get<HistoricalEventRemoteMediator>()
+            remoteMediator = get<HistoricalEventRemoteMediator>(),
+            db = get<HistoricalEventDatabase>(),
         )
     }
 }

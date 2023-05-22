@@ -9,6 +9,9 @@ import com.example.uitest.domain.HistoricalEvent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -19,15 +22,22 @@ class SearchHistoricalEventViewModel(
     private val _uiState = MutableStateFlow(ViewState())
     val uiState: StateFlow<ViewState> = _uiState.asStateFlow()
 
+
     private val _historicalEventPagingFlow: MutableStateFlow<PagingData<HistoricalEvent>> =
         MutableStateFlow(PagingData.empty())
     var historicalEventPagingFlow = _historicalEventPagingFlow.asStateFlow()
 
     init {
         viewModelScope.launch {
-            repository.events(_uiState.value.searchText)
-                .cachedIn(viewModelScope)
-                .collect(_historicalEventPagingFlow)
+            repository.clearCache()
+            _uiState.map { it.searchText }
+                .debounce(200)
+                .collectLatest {
+                    repository.events(it)
+                        .cachedIn(viewModelScope)
+                        .collect(_historicalEventPagingFlow)
+                }
+
         }
     }
 
@@ -37,16 +47,11 @@ class SearchHistoricalEventViewModel(
                 searchText = text
             )
         }
-        repository.events(_uiState.value.searchText)
-            .cachedIn(viewModelScope)
-            .collect(_historicalEventPagingFlow)
-
     }
 }
 
 data class ViewState(
     val searchText: String = "",
     val events: PagingData<HistoricalEvent> = PagingData.empty(),
-    val event: HistoricalEvent? = null
 )
 

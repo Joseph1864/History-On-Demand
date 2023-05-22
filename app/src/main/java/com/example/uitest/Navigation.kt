@@ -14,17 +14,17 @@ import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun Navigation() {
-    val searchViewModel = getViewModel<SearchHistoricalEventViewModel>()
-    val randomViewModel = getViewModel<RandomHistoricalEventViewModel>()
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screens.MainScreen.route) {
         composable(route = Screens.MainScreen.route) {
             MainScreen(navController = navController)
         }
         composable(route = Screens.SearchHistoricalEventScreen.route) {
+            val searchViewModel = getViewModel<SearchHistoricalEventViewModel>()
             HistoricalEventScreen(viewModel = searchViewModel)
         }
         composable(route = Screens.RandomHistoricalEventScreen.route) {
+            val randomViewModel = getViewModel<RandomHistoricalEventViewModel>()
             RandomHistoricalEventScreen(randomViewModel)
         }
     }
