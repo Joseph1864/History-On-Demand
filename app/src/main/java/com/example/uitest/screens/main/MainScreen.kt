@@ -1,4 +1,4 @@
-package com.example.uitest.screens
+package com.example.uitest.screens.main
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.uitest.R
+import com.example.uitest.screens.Screens
 
 
 @Composable

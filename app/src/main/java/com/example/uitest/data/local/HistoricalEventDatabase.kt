@@ -10,8 +10,6 @@ import androidx.room.RoomDatabase
 )
 abstract class HistoricalEventDatabase: RoomDatabase() {
 
-    //I sometimes see this as an abstract val or an abstract fun
-    //abstract fun getHistoricalEventDao(): HistoricalEventDao
     abstract val dao: HistoricalEventDao
 
 }

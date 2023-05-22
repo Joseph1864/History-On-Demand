@@ -1,4 +1,4 @@
-package com.example.uitest.screens
+package com.example.uitest.screens.main
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row

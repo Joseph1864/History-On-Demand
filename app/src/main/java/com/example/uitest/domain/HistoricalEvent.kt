@@ -8,7 +8,7 @@ data class HistoricalEvent(
     val event: String,
     val month: String,
     val year: String
-) {
+) //{
 
-    fun getFormattedDate()
-}
+//    fun getFormattedDate()
+//}*/

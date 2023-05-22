@@ -1,4 +1,4 @@
-package com.example.uitest.screens
+package com.example.uitest.screens.searchHistoricalEvent
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -31,7 +31,7 @@ class SearchHistoricalEventViewModel(
         viewModelScope.launch {
             repository.clearCache()
             _uiState.map { it.searchText }
-                .debounce(200)
+                .debounce(400)
                 .collectLatest {
                     repository.events(it)
                         .cachedIn(viewModelScope)

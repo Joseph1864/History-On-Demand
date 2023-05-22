@@ -1,4 +1,4 @@
-package com.example.uitest.screens
+package com.example.uitest.screens.searchHistoricalEvent
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
@@ -58,14 +58,16 @@ fun HistoricalEventScreen(
             )
         } else {
             LazyColumn(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = 32.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 items(historicalEvents.itemCount) { index ->
                     val historicalEvent = historicalEvents[index]
                     if (historicalEvent != null) {
-                        HistoricalEventCard(historicalEvent)
+                        SearchHistoricalEventCard(historicalEvent)
                     }
                 }
                 item {
