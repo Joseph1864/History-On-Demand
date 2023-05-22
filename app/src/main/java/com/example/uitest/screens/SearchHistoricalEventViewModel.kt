@@ -46,6 +46,7 @@ class SearchHistoricalEventViewModel(
 
 data class ViewState(
     val searchText: String = "",
-    val events: PagingData<HistoricalEvent> = PagingData.empty()
+    val events: PagingData<HistoricalEvent> = PagingData.empty(),
+    val event: HistoricalEvent? = null
 )
 

@@ -8,22 +8,24 @@ import com.example.uitest.screens.HistoricalEventScreen
 import com.example.uitest.screens.SearchHistoricalEventViewModel
 import com.example.uitest.screens.MainScreen
 import com.example.uitest.screens.RandomHistoricalEventScreen
+import com.example.uitest.screens.RandomHistoricalEventViewModel
 import com.example.uitest.screens.Screens
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun Navigation() {
-    val viewModel = getViewModel<SearchHistoricalEventViewModel>()
+    val searchViewModel = getViewModel<SearchHistoricalEventViewModel>()
+    val randomViewModel = getViewModel<RandomHistoricalEventViewModel>()
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screens.MainScreen.route) {
         composable(route = Screens.MainScreen.route) {
             MainScreen(navController = navController)
         }
         composable(route = Screens.SearchHistoricalEventScreen.route) {
-            HistoricalEventScreen(viewModel = viewModel)
+            HistoricalEventScreen(viewModel = searchViewModel)
         }
         composable(route = Screens.RandomHistoricalEventScreen.route) {
-            RandomHistoricalEventScreen()
+            RandomHistoricalEventScreen(randomViewModel)
         }
     }
 }

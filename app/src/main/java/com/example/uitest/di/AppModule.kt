@@ -10,6 +10,7 @@ import com.example.uitest.data.remote.HistoricalEventApi
 import com.example.uitest.data.remote.HistoricalEventRemoteMediator
 import com.example.uitest.data.remote.HistoricalEventRepository
 import com.example.uitest.domain.HistoricalEvent
+import com.example.uitest.screens.RandomHistoricalEventViewModel
 import com.example.uitest.screens.SearchHistoricalEventViewModel
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
@@ -23,6 +24,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 val appModules = module {
     viewModel {
         SearchHistoricalEventViewModel(get<HistoricalEventRepository>())
+    }
+    viewModel {
+        RandomHistoricalEventViewModel(get<HistoricalEventApi>())
     }
     single {
         AuthInterceptor()

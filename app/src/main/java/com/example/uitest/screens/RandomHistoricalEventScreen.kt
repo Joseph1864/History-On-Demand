@@ -8,14 +8,24 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.uitest.domain.HistoricalEvent
+import kotlinx.coroutines.launch
 
-@Preview
+
 @Composable
-fun RandomHistoricalEventScreen() {
+fun RandomHistoricalEventScreen(
+    viewModel: RandomHistoricalEventViewModel
+) {
+
+    val scope = rememberCoroutineScope()
+    val uiState by viewModel.uiState.collectAsState()
+
     Column(
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
@@ -23,12 +33,16 @@ fun RandomHistoricalEventScreen() {
             .padding(horizontal = 16.dp)
     ) {
         Spacer(modifier = Modifier.weight(1f))
-        Button(onClick = { /*TODO*/ },
+        Button(onClick = {
+            var event = uiState.event
+        },
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
         ) {
-            Text(text = "Generate a fact!")
+            Text(text = "Generate an event!")
         }
+        Spacer(modifier = Modifier.weight(1f))
+        HistoricalEventCard(event = event)
 
     }
 }
