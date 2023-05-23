@@ -56,7 +56,13 @@ private fun Content(
         .padding(horizontal = 16.dp)
 ) {
     Spacer(modifier = Modifier.weight(1f))
-    RandomHistoricalEventCard(event = viewState.event)
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(400.dp)
+    ) {
+        RandomHistoricalEventCard(event = viewState.event)
+    }
     Spacer(modifier = Modifier.weight(1f))
     Button(
         onClick = onGenerateEventClicked,

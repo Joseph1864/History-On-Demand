@@ -19,8 +19,8 @@ class SearchHistoricalEventViewModel(
     private val repository: HistoricalEventRepository,
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(ViewState())
-    val uiState: StateFlow<ViewState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(SearchHistoricalEventViewState())
+    val uiState: StateFlow<SearchHistoricalEventViewState> = _uiState.asStateFlow()
 
 
     private val _historicalEventPagingFlow: MutableStateFlow<PagingData<HistoricalEvent>> =
@@ -50,7 +50,7 @@ class SearchHistoricalEventViewModel(
     }
 }
 
-data class ViewState(
+data class SearchHistoricalEventViewState(
     val searchText: String = "",
     val events: PagingData<HistoricalEvent> = PagingData.empty(),
 )
