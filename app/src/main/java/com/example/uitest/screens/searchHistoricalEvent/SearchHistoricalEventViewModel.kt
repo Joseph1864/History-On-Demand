@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.uitest.data.remote.HistoricalEventRepository
+import com.example.uitest.domain.HistoricalEventRepository
 import com.example.uitest.domain.HistoricalEvent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

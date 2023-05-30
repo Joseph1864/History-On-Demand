@@ -15,6 +15,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 
@@ -52,11 +53,23 @@ fun HistoricalEventScreen(
                 unfocusedIndicatorColor = Color.Transparent
             )
         )
-        if (historicalEvents.loadState.refresh is LoadState.Loading) {
+        if (historicalEvents.loadState.refresh is LoadState.Error) {
+            Text(
+                text = "No internet connection :(",
+                fontSize = 24.sp,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+        } else if (historicalEvents.itemCount == 0) {
+            Text(
+                text = "No results found",
+                fontSize = 24.sp,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+        } else if (historicalEvents.loadState.refresh is LoadState.Loading) {
             CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
-        } else {
+        }else {
             LazyColumn(
                 modifier = Modifier
                     .weight(1f)

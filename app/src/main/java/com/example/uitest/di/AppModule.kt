@@ -8,7 +8,7 @@ import com.example.uitest.data.local.HistoricalEventDatabase
 import com.example.uitest.data.remote.AuthInterceptor
 import com.example.uitest.data.remote.HistoricalEventApi
 import com.example.uitest.data.remote.HistoricalEventRemoteMediator
-import com.example.uitest.data.remote.HistoricalEventRepository
+import com.example.uitest.domain.HistoricalEventRepository
 import com.example.uitest.domain.HistoricalEvent
 import com.example.uitest.screens.randomHistoricalEvent.RandomHistoricalEventViewModel
 import com.example.uitest.screens.searchHistoricalEvent.SearchHistoricalEventViewModel

@@ -1,10 +1,10 @@
-package com.example.uitest.data.remote
+package com.example.uitest.domain
 
 import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.example.uitest.data.local.HistoricalEventDatabase
-import com.example.uitest.domain.HistoricalEvent
+import com.example.uitest.data.remote.HistoricalEventRemoteMediator
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

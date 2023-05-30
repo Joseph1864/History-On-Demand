@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.uitest.data.remote.HistoricalEventApi
 import com.example.uitest.domain.HistoricalEvent
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,7 +28,13 @@ class RandomHistoricalEventViewModel(
         generateRandomEvent()
     }
 
-    private fun generateRandomEvent() = viewModelScope.launch {
+    private fun generateRandomEvent() = viewModelScope.launch(
+        CoroutineExceptionHandler { _, exception ->
+            _uiState.update {
+                RandomHistoricalEventViewState.Error
+            }
+        }
+    ) {
         _uiState.update {
             RandomHistoricalEventViewState.Loading
         }
@@ -43,7 +50,7 @@ class RandomHistoricalEventViewModel(
 }
 
 sealed class RandomHistoricalEventViewState {
+    object Error : RandomHistoricalEventViewState()
     object Loading : RandomHistoricalEventViewState()
-
     data class Content(val event: HistoricalEvent) : RandomHistoricalEventViewState()
 }

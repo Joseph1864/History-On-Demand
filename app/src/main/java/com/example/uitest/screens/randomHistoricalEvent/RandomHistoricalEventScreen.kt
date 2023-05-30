@@ -1,13 +1,7 @@
 package com.example.uitest.screens.randomHistoricalEvent
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -15,10 +9,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
 
 @Composable
 fun RandomHistoricalEventScreen(
@@ -26,56 +20,60 @@ fun RandomHistoricalEventScreen(
 ) {
 
     val uiState by viewModel.uiState.collectAsState()
-
-    when (uiState) {
-        RandomHistoricalEventViewState.Loading -> Loading()
-        is RandomHistoricalEventViewState.Content -> Content(
-            viewState = uiState as RandomHistoricalEventViewState.Content,
-            onGenerateEventClicked = viewModel::generateEventClicked
-        )
-    }
-}
-
-@Composable
-private fun Loading() = Box(
-    modifier = Modifier.fillMaxSize()
-) {
-    CircularProgressIndicator(
-        modifier = Modifier.align(Alignment.Center)
+    Content(
+        viewState = uiState,
+        onGenerateEventClicked = viewModel::generateEventClicked,
     )
 }
 
 @Composable
 private fun Content(
-    viewState: RandomHistoricalEventViewState.Content,
+    viewState: RandomHistoricalEventViewState,
     onGenerateEventClicked: () -> Unit,
-) = Column(
-    verticalArrangement = Arrangement.Center,
+) = ConstraintLayout(
     modifier = Modifier
-        .fillMaxWidth()
-        .padding(horizontal = 16.dp)
+        .fillMaxSize()
 ) {
-    Spacer(modifier = Modifier.weight(1f))
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(400.dp)
-    ) {
-        RandomHistoricalEventCard(event = viewState.event)
+
+    val (error, loading, content, generateButton) = createRefs()
+
+    when(viewState) {
+        RandomHistoricalEventViewState.Error ->
+            Text(
+                modifier = Modifier.constrainAs(error) {
+                    centerTo(parent)
+                },
+                text = "No internet connection :(",
+                fontSize = 24.sp
+            )
+        RandomHistoricalEventViewState.Loading ->
+            CircularProgressIndicator(
+            modifier = Modifier.constrainAs(loading) {
+                centerTo(parent)
+            }
+        )
+        is RandomHistoricalEventViewState.Content ->
+            RandomHistoricalEventCard(
+                event = viewState.event,
+                modifier = Modifier.constrainAs(content) {
+                    centerHorizontallyTo(parent)
+                    top.linkTo(parent.top, margin = 64.dp)
+                }
+            )
     }
-    Spacer(modifier = Modifier.weight(1f))
     Button(
         onClick = onGenerateEventClicked,
         modifier = Modifier
-            .align(Alignment.CenterHorizontally)
+            .constrainAs(generateButton) {
+                centerHorizontallyTo(parent)
+                bottom.linkTo(parent.bottom, margin = 64.dp)
+            }
             .width(300.dp)
             .height(50.dp)
-
     ) {
         Text(
-            text = "Random Event Time!",
+            text = "Random Event!",
             fontSize = 24.sp
         )
     }
-    Spacer(modifier = Modifier.weight(0.5f))
 }
