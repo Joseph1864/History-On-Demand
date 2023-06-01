@@ -1,4 +1,4 @@
-package com.example.uitest.screens.randomHistoricalEvent
+package com.example.uitest.screens.random_historical_event
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -20,7 +20,7 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RandomHistoricalEventCard(event: HistoricalEvent) {
+fun RandomHistoricalEventCard(event: HistoricalEvent, modifier: Modifier) {
     val eventDate = Calendar.getInstance()
     eventDate.set(
         event.year.toInt(),

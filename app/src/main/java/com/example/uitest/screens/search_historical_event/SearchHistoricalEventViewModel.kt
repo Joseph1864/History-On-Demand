@@ -1,4 +1,4 @@
-package com.example.uitest.screens.searchHistoricalEvent
+package com.example.uitest.screens.search_historical_event
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

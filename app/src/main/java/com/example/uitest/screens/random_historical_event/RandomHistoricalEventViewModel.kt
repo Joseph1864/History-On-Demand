@@ -1,4 +1,4 @@
-package com.example.uitest.screens.randomHistoricalEvent
+package com.example.uitest.screens.random_historical_event
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

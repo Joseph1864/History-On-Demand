@@ -1,4 +1,4 @@
-package com.example.uitest.screens.searchHistoricalEvent
+package com.example.uitest.screens.search_historical_event
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
