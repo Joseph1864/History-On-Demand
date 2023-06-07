@@ -31,7 +31,7 @@ fun RandomHistoricalEventCard(event: HistoricalEvent, modifier: Modifier) {
     val dateString = dateFormat.format(eventDate.time)
 
 
-    Card(modifier = Modifier
+    Card(modifier = modifier
         .padding(horizontal = 16.dp)
         .fillMaxWidth()
         .wrapContentHeight(),

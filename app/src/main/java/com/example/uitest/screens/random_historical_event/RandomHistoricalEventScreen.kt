@@ -35,7 +35,11 @@ private fun Content(
         .fillMaxSize()
 ) {
 
-    val (error, loading, content, generateButton) = createRefs()
+    val (error,
+        loading,
+        content,
+        generateButton
+    ) = createRefs()
 
     when(viewState) {
         RandomHistoricalEventViewState.Error ->
@@ -49,7 +53,8 @@ private fun Content(
         RandomHistoricalEventViewState.Loading ->
             CircularProgressIndicator(
             modifier = Modifier.constrainAs(loading) {
-                centerTo(parent)
+                centerHorizontallyTo(parent)
+                top.linkTo(parent.top, margin = 128.dp)
             }
         )
         is RandomHistoricalEventViewState.Content ->
@@ -63,8 +68,7 @@ private fun Content(
     }
     Button(
         onClick = onGenerateEventClicked,
-        modifier = Modifier
-            .constrainAs(generateButton) {
+        modifier = Modifier.constrainAs(generateButton) {
                 centerHorizontallyTo(parent)
                 bottom.linkTo(parent.bottom, margin = 64.dp)
             }
