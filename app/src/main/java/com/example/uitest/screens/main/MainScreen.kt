@@ -71,7 +71,7 @@ fun MainScreen(navController: NavController) {
             Spacer(modifier = Modifier.weight(0.25f))
             MainScreenButton(
                 buttonText = "Random Historical Event",
-                painterResource = R.drawable.random_event
+                painterResource = R.drawable.globe_building
             ) {
                 navController.navigate(Screens.RandomHistoricalEventScreen.route)
             }

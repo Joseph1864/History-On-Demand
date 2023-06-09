@@ -31,6 +31,7 @@ fun HistoricalEventScreen(
 
     LaunchedEffect(key1 = historicalEvents.loadState) {
         if (historicalEvents.loadState.refresh is LoadState.Error) {
+            println((historicalEvents.loadState.refresh as LoadState.Error).error.message)
             Toast.makeText(
                 context,
                 "Error: " + (historicalEvents.loadState.refresh as LoadState.Error).error.message,

@@ -18,7 +18,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 fun RandomHistoricalEventScreen(
     viewModel: RandomHistoricalEventViewModel,
 ) {
-
     val uiState by viewModel.uiState.collectAsState()
     Content(
         viewState = uiState,
