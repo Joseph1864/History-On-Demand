@@ -3,6 +3,11 @@
 App that displays historical events related to user-entered keywords. Uses API Ninjas to retrieve historical events.
 
 ## Screenshots
+<p>
+  <kbd><img src="https://github.com/Joseph1864/History-On-Demand/blob/main/app/src/main/res/raw/main_screen.png" width="200"/></kbd>
+  <kbd><img src="https://github.com/Joseph1864/History-On-Demand/blob/main/app/src/main/res/raw/random_screen.png" width="200"/></kbd>    
+  <kbd><img src="https://github.com/Joseph1864/History-On-Demand/blob/main/app/src/main/res/raw/search_screen.png" width="200"/></kbd>
+</p>
 
 ## Attribution
 <a href="https://www.flaticon.com/free-icons/history" title="history icons">History icons created by monkik - Flaticon</a> <br>
