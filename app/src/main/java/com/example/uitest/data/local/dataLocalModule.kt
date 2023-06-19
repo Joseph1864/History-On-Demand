@@ -13,4 +13,8 @@ val dataLocalModule = module {
         ).build()
     }
 
+    single {
+        get<HistoricalEventDatabase>().dao
+    }
+
 }

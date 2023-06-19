@@ -3,6 +3,7 @@ package com.example.uitest.domain
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import com.example.uitest.data.local.HistoricalEventDao
 import com.example.uitest.data.local.HistoricalEventDatabase
 import com.example.uitest.data.remote.HistoricalEventRemoteMediator
 import org.koin.dsl.module
@@ -21,7 +22,7 @@ val domainModule = module {
             config = PagingConfig(pageSize = 10),
             remoteMediator = get<HistoricalEventRemoteMediator>(),
             pagingSourceFactory = {
-                get<HistoricalEventDatabase>().dao.pagingSource()
+                get<HistoricalEventDao>().pagingSource()
             }
         )
     }

@@ -11,22 +11,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
 import com.example.uitest.domain.HistoricalEvent
 import java.text.SimpleDateFormat
 import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchHistoricalEventCard(event: HistoricalEvent) {
-    val eventDate = Calendar.getInstance()
-    eventDate.set(
-        event.year.toInt(),
-        event.month.toInt() -1,
-        event.day.toInt()
-    )
-    val dateFormat = SimpleDateFormat("MMMM d, y G", Locale.getDefault())
-    val dateString = dateFormat.format(eventDate.time)
+fun SearchHistoricalEventCard(event: HistoricalEvent, viewModel: SearchHistoricalEventViewModel) {
 
+    val dateString = viewModel.getFormattedDate(event)
 
     Card(modifier = Modifier
         .fillMaxWidth()
