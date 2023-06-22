@@ -1,14 +1,24 @@
 package com.example.uitest.domain
 
-//Is initializing the "id" property a bad idea? I need it when I convert the api response
-//HistoricalEvent to HistoricalEventEntity for Room
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
+
 data class HistoricalEvent(
     var id: Int = 0,
     val day: String,
     val event: String,
     val month: String,
     val year: String
-) //{
-
-//    fun getFormattedDate()
-//}*/
+) {
+    fun getFormattedDate() : String {
+        val eventDate = Calendar.getInstance()
+        eventDate.set(
+            year.toInt(),
+            month.toInt() - 1,
+            day.toInt()
+        )
+        val dateFormat = SimpleDateFormat("MMMM d, y G", Locale.getDefault())
+        return dateFormat.format(eventDate.time)
+    }
+}

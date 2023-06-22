@@ -48,38 +48,20 @@ fun HistoricalEventScreen(
             ),
             singleLine = true
         )
-        if (uiState.searchText == "") {
-            Text(
-                text = "Enter a keyword!",
-                fontSize = 24.sp,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
-        } else if (uiState.searchText != "" && historicalEvents.loadState.refresh is LoadState.Loading) {
-            CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
-        } else if (historicalEvents.loadState.refresh is LoadState.Error) {
-            when ((historicalEvents.loadState.refresh as LoadState.Error).error)  {
-                is UnknownHostException, is ConnectException, is SocketTimeoutException ->
-                    Text(
-                        text = "No internet connection :(",
-                        fontSize = 24.sp,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
-                    )
-                else ->
-                    Text(
-                        text = "Something went wrong :O",
-                        fontSize = 24.sp,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
-                    )
-            }
-        } else if (historicalEvents.itemCount == 0 && uiState.searchText != "") {
-            Text(
-                text = "No results found",
-                fontSize = 24.sp,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
-        } else {
+        when  {
+            (uiState.searchText.isEmpty()) ->
+                EmptySearch(modifier = Modifier.align(Alignment.CenterHorizontally))
+
+        (historicalEvents.loadState.refresh is LoadState.Loading) ->
+            Loading(modifier = Modifier.align(Alignment.CenterHorizontally))
+
+        (historicalEvents.loadState.refresh is LoadState.Error) ->
+            Error(modifier = Modifier.align(Alignment.CenterHorizontally), throwable = (historicalEvents.loadState.refresh as LoadState.Error).error)
+
+        (historicalEvents.itemCount == 0) ->
+            EmptyResponse(modifier = Modifier.align(Alignment.CenterHorizontally))
+
+        else ->
             LazyColumn(
                 modifier = Modifier
                     .weight(1f)
@@ -90,7 +72,7 @@ fun HistoricalEventScreen(
                 items(historicalEvents.itemCount) { index ->
                     val historicalEvent = historicalEvents[index]
                     if (historicalEvent != null) {
-                        SearchHistoricalEventCard(historicalEvent, viewModel = viewModel)
+                        SearchHistoricalEventCard(historicalEvent, dateString = historicalEvent.getFormattedDate())
                     }
                 }
                 item {
@@ -102,3 +84,42 @@ fun HistoricalEventScreen(
         }
     }
 }
+
+@Composable
+private fun EmptySearch(modifier: Modifier) =
+    Text(
+        text = "Enter a keyword!",
+        fontSize = 24.sp,
+        modifier = modifier
+    )
+
+@Composable
+private fun Loading(modifier: Modifier) =
+    CircularProgressIndicator(
+        modifier = modifier
+    )
+
+@Composable
+private fun Error(modifier: Modifier, throwable: Throwable) =
+    when (throwable)  {
+        is UnknownHostException, is ConnectException, is SocketTimeoutException ->
+            Text(
+                text = "No internet connection :(",
+                fontSize = 24.sp,
+                modifier = modifier
+            )
+        else ->
+            Text(
+                text = "Something went wrong :O",
+                fontSize = 24.sp,
+                modifier = modifier
+            )
+    }
+
+@Composable
+private fun EmptyResponse(modifier: Modifier) =
+    Text(
+        text = "No results found",
+        fontSize = 24.sp,
+        modifier = modifier
+    )

@@ -15,9 +15,6 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 
 class SearchHistoricalEventViewModel(
     private val repository: HistoricalEventRepository,
@@ -54,24 +51,11 @@ class SearchHistoricalEventViewModel(
         }
     }
 
-    private fun formatDate(event: HistoricalEvent): String {
-        val eventDate = Calendar.getInstance()
-        eventDate.set(
-            event.year.toInt(),
-            event.month.toInt() -1,
-            event.day.toInt()
-        )
-        val dateFormat = SimpleDateFormat("MMMM d, y G", Locale.getDefault())
-        return dateFormat.format(eventDate.time)
-    }
 
-    fun getFormattedDate(event: HistoricalEvent) :String {
-        return formatDate(event)
-    }
 }
 
 data class SearchHistoricalEventViewState(
     val searchText: String = "",
-    val events: PagingData<HistoricalEvent> = PagingData.empty(),
+    val events: PagingData<HistoricalEvent> = PagingData.empty()
 )
 
