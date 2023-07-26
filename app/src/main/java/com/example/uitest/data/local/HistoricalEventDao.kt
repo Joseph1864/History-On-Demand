@@ -8,12 +8,20 @@ import com.example.uitest.domain.HistoricalEvent
 interface HistoricalEventDao {
 
     @Upsert
-    fun upsertAll(historicalEvents: List<HistoricalEventEntity>)
+    suspend fun upsertAll(historicalEvents: List<HistoricalEventEntity>)
 
-    @Query("SELECT * FROM historicalevententity")
+    @Insert
+    suspend fun insertAll(historicalEvents: List<HistoricalEventEntity>)
+
+    @Transaction
+    suspend fun replaceEvents(historicalEvents: List<HistoricalEventEntity>) {
+        clearAll()
+        upsertAll(historicalEvents)
+    }
+    @Query("SELECT * FROM historical_events")
     fun pagingSource(): PagingSource<Int, HistoricalEvent>
 
-    @Query("DELETE FROM historicalevententity")
+    @Query("DELETE FROM historical_events")
     suspend fun clearAll()
 
 }

@@ -4,10 +4,10 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 
-@Entity(tableName = "historicalevententity")
+@Entity(tableName = "historical_events")
 data class HistoricalEventEntity (
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Int = -1,
     val day: String,
     val event: String,
     val month: String,

@@ -3,13 +3,14 @@ package com.example.uitest.domain
 import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.example.uitest.data.local.HistoricalEventDao
 import com.example.uitest.data.local.HistoricalEventDatabase
 import com.example.uitest.data.remote.HistoricalEventRemoteMediator
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class HistoricalEventRepository(
-    private val db: HistoricalEventDatabase,
+    private val historicalEventDao: HistoricalEventDao,
     private val remoteMediator: HistoricalEventRemoteMediator,
     private val pager: Pager<Int, HistoricalEvent>
 ) {
@@ -21,5 +22,5 @@ class HistoricalEventRepository(
             .map { pagingData -> pagingData.map { it } }
     }
 
-    suspend fun clearCache() =  db.dao.clearAll()
+    suspend fun clearCache() =  historicalEventDao.clearAll()
 }

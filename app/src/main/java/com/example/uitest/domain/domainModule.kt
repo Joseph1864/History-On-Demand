@@ -12,9 +12,9 @@ import org.koin.dsl.module
 val domainModule = module {
     single {
         HistoricalEventRepository(
+            historicalEventDao = get<HistoricalEventDao>(),
             pager = get<Pager<Int, HistoricalEvent>>(),
             remoteMediator = get<HistoricalEventRemoteMediator>(),
-            db = get<HistoricalEventDatabase>(),
         )
     }
     single {

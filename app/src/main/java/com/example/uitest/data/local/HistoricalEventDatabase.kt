@@ -6,10 +6,9 @@ import androidx.room.RoomDatabase
 
 @Database(
     entities = [HistoricalEventEntity::class],
-    version = 1
+    version = 1,
 )
 abstract class HistoricalEventDatabase: RoomDatabase() {
 
-    abstract val dao: HistoricalEventDao
-
+    abstract val historicalEventDao: HistoricalEventDao
 }
